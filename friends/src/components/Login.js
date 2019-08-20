@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-const Login = () => {
+const Login = (props) => {
+    // console.log("Login props: ", props)
     const blankCredentials = { username: "", password: "" }
     const [credentials, setCredentials] = useState(blankCredentials)
     const [isLoading, setLoading] = useState(false)
@@ -19,6 +20,7 @@ const Login = () => {
             })
             .catch(err => console.log(err))
         setCredentials(blankCredentials)
+        props.history.push("/protected")
     }
 
     return (
