@@ -15,7 +15,7 @@ const Login = (props) => {
         e.preventDefault()
         axios.post("http://localhost:5000/api/login", credentials)
             .then(res => {
-                console.log("API - GET RESPONSE", res)
+                console.log("API - POST RESPONSE", res)
                 localStorage.setItem("token", res.data.payload)
             })
             .catch(err => console.log(err))
