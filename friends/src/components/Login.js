@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const Login = () => {
-    const [credentials, setCredentials] = useState({ username: "", password: "" })
+    const blankCredentials = { username: "", password: "" }
+    const [credentials, setCredentials] = useState(blankCredentials)
     const [isLoading, setLoading] = useState(false)
-    console.log(credentials)
 
     const handleChange = e => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -12,11 +12,17 @@ const Login = () => {
 
     const login = e => {
         e.preventDefault()
-        axios.post()
+        axios.post("http://localhost:5000/api/login", credentials)
+            .then(res => {
+                console.log("API - GET RESPONSE", res)
+                localStorage.setItem("token", res.data.payload)
+            })
+            .catch(err => console.log(err))
+        setCredentials(blankCredentials)
     }
 
     return (
-        <form >
+        <form onSubmit={login}>
             <input
                 type="text"
                 name="username"
