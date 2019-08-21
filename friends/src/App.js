@@ -10,8 +10,9 @@ import './App.scss';
 
 function App() {
 
-  const [friends, setFriends] = useState([])
-  console.log("app props", friends)
+  // const [friends, setFriends] = useState([])
+  // console.log("app props", friends)
+
   return (
     <div className="App">
       {/* Links */}
@@ -25,7 +26,10 @@ function App() {
       </ul>
       {/* Routes */}
       <Route path='/login' component={Login} />
-      <PrivateRoute exact path="/friends" friends={friends} setFriends={setFriends} component={FriendsList} />
+
+      {/* Logged in views */}
+      <PrivateRoute exact path="/friends" component={FriendsList} />
+      {/* <PrivateRoute exact path="/friends/edit/:id" component={FriendsList} /> */}
     </div>
   );
 }

@@ -8,14 +8,14 @@ import FriendForm from './FriendForm'
 const FriendsList = () => {
 
     const [friendsList, setFriendsList] = useState([])
-    const [isLoading, setLoading] = useState({ "default": true, "adding": false })
+    const [isLoading, setLoading] = useState({ default: true, addingFriend: false })
 
     useEffect(() => {
         axiosWithAuth().get("http://localhost:5000/api/friends")
             .then(res => {
                 console.log("FRIENDS API - GET RESPONSE:", res.data)
                 setFriendsList(res.data)
-                setLoading({ ...isLoading, "default": false })
+                setLoading({ ...isLoading, default: false })
             })
             .catch(err => console.log("FRIENDS API - GET ERROR", err))
     }, [])
@@ -27,14 +27,26 @@ const FriendsList = () => {
                 console.log("API - POST RESPONSE", res)
                 // setFriendsList([...friendsList, res.data]) // response was new array, so this added friendList array as 7th element
                 // setFriendsList([res.data]) // why not this?
-                setLoading({ ...isLoading, "adding": true })
+
+                // Adding friend loading indicator 
+                setLoading({ ...isLoading, addingFriend: true })
                 setTimeout(() => {
                     setFriendsList([...friendsList, friend])
-                    setLoading({ ...isLoading, "adding": false })
+                    setLoading({ ...isLoading, addingFriend: false })
                 }, 700)
             })
             .catch(err => console.log(err))
     }
+
+    const deleteFriend = friend => {
+
+    }
+
+    const editFriend = friend => {
+
+    }
+
+
     console.log(friendsList)
 
     return (
@@ -42,7 +54,9 @@ const FriendsList = () => {
         <div className="friends-list">
             <FriendForm addFriend={addFriend} />
             <h2>My friends</h2>
-            {isLoading.default ? "Loading friends..." : isLoading.adding ? "Adding friend..." : friendsList.map(friend => <Friend key={friend.id} friend={friend} />)}
+            {isLoading.default ? "Loading friends..." :
+                isLoading.addingFriend ? "Adding friend..." :
+                    friendsList.map(friend => <Friend key={friend.id} friend={friend} />)}
         </div>
 
     )
