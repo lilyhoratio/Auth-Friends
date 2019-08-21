@@ -4,10 +4,10 @@ const Friend = props => {
 
     const { name, age, email } = props.friend
     return (
-        <div>
-            <h2>{name}</h2>
+        <div className="friend">
+            <h3>{name}</h3>
             <p>{age} years old</p>
-            <p>Email: {email}</p>
+            <p>{email}</p>
         </div>
     )
 }

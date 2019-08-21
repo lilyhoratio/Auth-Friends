@@ -5,7 +5,6 @@ const Login = (props) => {
     // console.log("Login props: ", props)
     const blankCredentials = { username: "", password: "" }
     const [credentials, setCredentials] = useState(blankCredentials)
-    const [isLoading, setLoading] = useState(false)
 
     const handleChange = e => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -20,7 +19,7 @@ const Login = (props) => {
             })
             .catch(err => console.log(err))
         setCredentials(blankCredentials)
-        props.history.push("/protected")
+        props.history.push("/friends")
     }
 
     return (
