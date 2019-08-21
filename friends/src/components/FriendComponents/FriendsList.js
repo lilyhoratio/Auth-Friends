@@ -26,7 +26,7 @@ const FriendsList = () => {
             .then(res => {
                 console.log("API - POST RESPONSE", res)
                 // setFriendsList([...friendsList, res.data]) // response was new array, so this added friendList array as 7th element
-                // setFriendsList([res.data]) // why not this?
+                // setFriendsList(res.data) // why not this?
 
                 // Adding friend loading indicator 
                 setLoading({ ...isLoading, addingFriend: true })
@@ -38,8 +38,11 @@ const FriendsList = () => {
             .catch(err => console.log(err))
     }
 
-    const deleteFriend = friend => {
-
+    const deleteFriend = id => {
+        // console.log(id)
+        axiosWithAuth().delete(`http://localhost:5000/api/friends/${id}`)
+            .then(res => setFriendsList(res.data))
+            .catch(err => console.log(err))
     }
 
     const editFriend = friend => {
@@ -56,7 +59,7 @@ const FriendsList = () => {
             <h2>My friends</h2>
             {isLoading.default ? "Loading friends..." :
                 isLoading.addingFriend ? "Adding friend..." :
-                    friendsList.map(friend => <Friend key={friend.id} friend={friend} />)}
+                    friendsList.map(friend => <Friend key={friend.id} friend={friend} deleteFriend={deleteFriend} />)}
         </div>
 
     )
