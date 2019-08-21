@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
+import { axiosWithAuth } from '../../utils/axiosWithAuth'
+
 
 const FriendForm = (props) => {
     // console.log("Login props: ", props)
@@ -12,12 +14,12 @@ const FriendForm = (props) => {
 
     const addFriend = e => {
         e.preventDefault()
-        axios.post("http://localhost:5000/api/login", friend)
+        axiosWithAuth().post("http://localhost:5000/api/friends", friend) // server makes IDs for you
             .then(res => {
                 console.log("API - POST RESPONSE", res)
+                setFriend(blankFriend)
             })
             .catch(err => console.log(err))
-        setFriend(blankFriend)
     }
 
     return (
