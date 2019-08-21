@@ -10,8 +10,6 @@ const FriendsList = () => {
     const [friendsList, setFriendsList] = useState([])
     const [isLoading, setLoading] = useState(true)
 
-    console.log(isLoading)
-
     useEffect(() => {
         axiosWithAuth().get("http://localhost:5000/api/friends")
             .then(res => {
@@ -22,12 +20,22 @@ const FriendsList = () => {
             .catch(err => console.log("FRIENDS API - GET ERROR", err))
     }, [])
 
+    const addFriend = friend => {
+        // e.preventDefault()
+        axiosWithAuth().post("http://localhost:5000/api/friends", friend) // server makes IDs for you
+            .then(res => {
+                console.log("API - POST RESPONSE", res)
+                // setFriendsList([...friendsList, res.data]) // response was new array, so this added friendList array as 7th element
+                setFriendsList([...friendsList, friend])
+            })
+            .catch(err => console.log(err))
+    }
     console.log(friendsList)
 
     return (
 
         <div className="friends-list">
-            <FriendForm />
+            <FriendForm addFriend={addFriend} />
             <h2>My friends</h2>
             {isLoading ? "Loading..." : friendsList.map(friend => <Friend key={friend.id} friend={friend} />)}
         </div>
