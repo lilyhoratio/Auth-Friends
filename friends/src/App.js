@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Link } from 'react-router-dom'
 
 // components
@@ -9,6 +9,9 @@ import PrivateRoute from './components/PrivateRoute'
 import './App.scss';
 
 function App() {
+
+  const [friends, setFriends] = useState([])
+  console.log("app props", friends)
   return (
     <div className="App">
       {/* Links */}
@@ -22,7 +25,7 @@ function App() {
       </ul>
       {/* Routes */}
       <Route path='/login' component={Login} />
-      <PrivateRoute exact path="/friends" component={FriendsList} />
+      <PrivateRoute exact path="/friends" friends={friends} setFriends={setFriends} component={FriendsList} />
     </div>
   );
 }

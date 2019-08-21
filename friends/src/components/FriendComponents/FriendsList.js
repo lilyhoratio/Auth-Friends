@@ -8,14 +8,14 @@ import FriendForm from './FriendForm'
 const FriendsList = () => {
 
     const [friendsList, setFriendsList] = useState([])
-    const [isLoading, setLoading] = useState(true)
+    const [isLoading, setLoading] = useState({ "default": true, "adding": false })
 
     useEffect(() => {
         axiosWithAuth().get("http://localhost:5000/api/friends")
             .then(res => {
                 console.log("FRIENDS API - GET RESPONSE:", res.data)
                 setFriendsList(res.data)
-                setLoading(false)
+                setLoading({ ...isLoading, "default": false })
             })
             .catch(err => console.log("FRIENDS API - GET ERROR", err))
     }, [])
@@ -26,7 +26,12 @@ const FriendsList = () => {
             .then(res => {
                 console.log("API - POST RESPONSE", res)
                 // setFriendsList([...friendsList, res.data]) // response was new array, so this added friendList array as 7th element
-                setFriendsList([...friendsList, friend])
+                // setFriendsList([res.data]) // why not this?
+                setLoading({ ...isLoading, "adding": true })
+                setTimeout(() => {
+                    setFriendsList([...friendsList, friend])
+                    setLoading({ ...isLoading, "adding": false })
+                }, 700)
             })
             .catch(err => console.log(err))
     }
@@ -37,7 +42,7 @@ const FriendsList = () => {
         <div className="friends-list">
             <FriendForm addFriend={addFriend} />
             <h2>My friends</h2>
-            {isLoading ? "Loading..." : friendsList.map(friend => <Friend key={friend.id} friend={friend} />)}
+            {isLoading.default ? "Loading friends..." : isLoading.adding ? "Adding friend..." : friendsList.map(friend => <Friend key={friend.id} friend={friend} />)}
         </div>
 
     )

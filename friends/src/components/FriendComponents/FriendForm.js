@@ -25,6 +25,7 @@ const FriendForm = ({ addFriend }) => {
     const handleSubmit = e => {
         e.preventDefault()
         addFriend(friend)
+        // setFriendList(friend => [...friendList, friend])
         setFriend(blankFriend)
     }
 
@@ -41,7 +42,6 @@ const FriendForm = ({ addFriend }) => {
                 type="age"
                 name="age"
                 value={friend.age}
-                placeholder="age"
                 onChange={handleChange}
             />
             <input
@@ -51,7 +51,7 @@ const FriendForm = ({ addFriend }) => {
                 placeholder="email"
                 onChange={handleChange}
             />
-            <button>Add friend</button>
+            <button type="submit">Add friend</button>
         </form>
     )
 }
